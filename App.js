@@ -11,16 +11,19 @@ import {
   Image,
   FlatList,
   Linking,
+  Modal,
 } from "react-native";
+import WebView from "react-native-webview";
 
 export default function App() {
-
   const [darkMode, setDarkMode] = useState(true);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("1264804");
   const [user, setUser] = useState();
   const [questions, setQuestions] = useState([]);
   const [notFound, setNotFound] = useState(false);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const getUserId = async () => {
     setLoading(true);
@@ -55,10 +58,10 @@ export default function App() {
     const sorted = user.items.sort((a, b) => b.view_count - a.view_count);
     setQuestions([...sorted]);
   };
-
+ 
   return (
     <>
-      <StatusBar style="#808080" />
+      <StatusBar style={darkMode ? "dark" : "light"} />
 
       <View style={darkMode ? styles.light : styles.dark}>
         <View style={styles.toggle}>
@@ -117,13 +120,15 @@ export default function App() {
               </View>
 
               <View style={{ flexDirection: "row", marginTop: 10 }}>
-                <Text style={{marginVertical:10, marginRight:5}}>sort by</Text>
+                <Text style={{ marginVertical: 10, marginRight: 5 }}>
+                  sort by
+                </Text>
                 <Button title="Date" onPress={() => sortByDate()} />
                 <Button title="Answers" onPress={() => sortByAnswers()} />
                 <Button title="Views" onPress={() => sortByViews()} />
               </View>
               <View style={{ marginTop: 10 }}>
-                <Text style={{ left: 10, fontSize: 16, fontWeight: "bold", }}>
+                <Text style={{ left: 10, fontSize: 16, fontWeight: "bold" }}>
                   total questions: {user.items.length}
                 </Text>
                 <FlatList
@@ -141,6 +146,14 @@ export default function App() {
                   data={user.items}
                   extraData={questions}
                   renderItem={({ item }) => (
+                    <>
+                    <Modal animationType="slide" visible={modalVisible}>
+                    <WebView source={{ uri: item.link }} style={{ marginTop: 20 }} />
+                    <Button
+                      title="go back"
+                      onPress={() => setModalVisible(!modalVisible)}
+                    />
+                  </Modal>
                     <View style={styles.item}>
                       <Text
                         style={[
@@ -152,7 +165,7 @@ export default function App() {
                       </Text>
 
                       <Text
-                        onPress={() => Linking.openURL(item.link)}
+                        onPress={() => setModalVisible(!modalVisible)}
                         style={[
                           styles.titleText,
                           darkMode ? styles.textLight : styles.textDark,
@@ -160,9 +173,11 @@ export default function App() {
                       >
                         {item.title}
                       </Text>
-                      <View style={{ flexDirection: "row", marginTop:10 }}>
+                      <View
+                        style={{ flexDirection: "row-reverse", marginTop: 10 }}
+                      >
                         <Text
-                          style={ darkMode ? styles.textLight : styles.textDark}
+                          style={darkMode ? styles.textLight : styles.textDark}
                         >
                           {item.answer_count > 0
                             ? `${item.answer_count} answer`
@@ -172,10 +187,13 @@ export default function App() {
                           {item.view_count} views
                         </Text>
                         <Text style={{ marginLeft: 10 }}>
-                          {new Date(item.creation_date * 1000).toUTCString().slice(0, -13)}
+                          {new Date(item.creation_date * 1000)
+                            .toUTCString()
+                            .slice(0, -13)}
                         </Text>
                       </View>
                     </View>
+                    </>
                   )}
                   keyExtractor={(item) => item.question_id}
                 />
@@ -202,15 +220,15 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   toggle: {
-    flexDirection: "row-reverse",
-    right: 5,
+    flexDirection: "row",
+    marginRight: 5,
   },
   question: {
     fontSize: 16,
     fontWeight: "bold",
   },
   titleText: {
-    marginTop:5,
+    marginTop: 5,
   },
   header: {
     flex: 1,
@@ -222,7 +240,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   inputRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
   },
   textLight: {
     backgroundColor: "#fff",
@@ -244,12 +262,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   profileRow: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     marginTop: 20,
     justifyContent: "space-between",
   },
   profileDetails: {
-    marginLeft: 15,
+    // marginLeft: 20,
     justifyContent: "center",
   },
   centeredView: {
