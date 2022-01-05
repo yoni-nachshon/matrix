@@ -17,12 +17,13 @@ const Answers: React.FC<Props> = (props) => {
 
     return (
         <>
-            {loading && modalVisible && <ActivityIndicator size="large" color="#808080" />}
-            <Modal animationType="slide" visible={modalVisible}>
+            <Modal animationType="slide" visible={modalVisible} >
+            {loading && ( <ActivityIndicator size="large" color="#808080" style={styles.loading} /> )}
                 <WebView
                     source={{ uri: link }}
                     onLoad={() => setLoading(false)}
-                    style={{ marginTop: 20 }} />
+                    style={{ marginTop: 20 }}
+                     />
                 <Button
                     title="go back"
                     onPress={() => setModalVisible(!modalVisible)}
@@ -40,6 +41,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#000",
         color: "#fff",
     },
+    loading: {
+        justifyContent: 'center',
+    }
 
 });
 export default Answers;

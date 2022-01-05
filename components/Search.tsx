@@ -13,10 +13,12 @@ const Search: React.FC<Props> = (props) => {
     <View style={styles.inputRow}>
             <TextInput
               style={[
+               {borderColor: props.darkMode ? '#000' : '#fff' },
                 styles.input,
                 props.darkMode ? styles.textLight : styles.textDark,
+                
               ]}
-              placeholder="user Id"
+              placeholder="Search user Id"
               onChangeText={(num) => props.setUserId(num)}
               value={props.userId}
             />

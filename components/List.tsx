@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, Button, FlatList, Modal, StyleSheet } from 'react-native';
-import WebView from "react-native-webview";
+import { View, Text, Button, TouchableWithoutFeedback, FlatList, StyleSheet } from 'react-native';
 
 interface Props {
     darkMode: boolean
@@ -11,11 +10,12 @@ interface Props {
     setModalVisible: (modalVisibl) => void
     link: string
     setLink: (link) => void
+    setLoading: (loading) => void
 
 }
 const List: React.FC<Props> = (props) => {
 
-    const { user, darkMode, questions, setQuestions, modalVisible, setModalVisible, link, setLink } = props
+    const { user, darkMode, questions, setQuestions, modalVisible, setModalVisible, link, setLink, setLoading } = props
 
     const sortByDate = () => {
         const sorted = user.items.sort((a: { creation_date: number; }, b: { creation_date: number; }) => b.creation_date - a.creation_date);
@@ -33,34 +33,44 @@ const List: React.FC<Props> = (props) => {
     const openModal = link => {
         setLink(link)
         setModalVisible(!modalVisible)
+        setLoading(true)
     }
 
     return (
         <>
-            <View style={{ flexDirection: 'row-reverse', marginTop: 10 }}>
-                <Text style={{ marginVertical: 10, marginRight: 5 }}>
-                    sort by
-                </Text>
-                
-                <Button title="Date" onPress={() => sortByDate()} />
-                <Button title="Answers" onPress={() => sortByAnswers()} />
-                <Button title="Views" onPress={() => sortByViews()} />
-            </View>
-            <View style={{ marginTop: 10 }}>
-                <Text style={{ left: 10, fontSize: 16, fontWeight: "bold" }}>
-                    total questions: {user && user.items.length}
-                </Text>
-                <FlatList
-                    ItemSeparatorComponent={() => {
-                        return (
-                            <View style={{ height: 1, width: "100%", backgroundColor: "#CED0CE" }} />
-                        );
-                    }}
-                    data={user && user.items}
-                    extraData={questions}
-                    renderItem={({ item }) => (
+            {user && (
+                <>
+                    <View style={{ flexDirection: 'row-reverse', marginTop: 10 }}>
+                        <View style={{ margin: 5 }}>
+                            <Button title="Date" onPress={() => sortByDate()} />
+                        </View>
+                        <View style={{ margin: 5 }}>
+                            <Button title="Answers" onPress={() => sortByAnswers()} />
+                        </View>
+                        <View style={{ margin: 5 }}>
+                            <Button title="Views" onPress={() => sortByViews()} />
+                        </View>
+                    </View>
+                    <View style={{ marginTop: 10 }}>
+                        <Text style={{ left: 10, fontSize: 16, fontWeight: "bold", marginBottom:5 }}>
+                            total questions: {user && user.items.length}
+                        </Text>
+                    </View>
+                </>
+            )}
+            <FlatList
+                ItemSeparatorComponent={() => {
+                    return (
+                        <View style={{ height: 1, width: "100%", backgroundColor: "#CED0CE" }} />
+                    );
+                }}
+                data={user && user.items}
+                extraData={questions}
+                renderItem={({ item }) => (
 
-                        <View style={styles.item}>
+                    <TouchableWithoutFeedback  onPress={() => openModal(item.link)}>
+                        <View style={styles.item} >
+
                             <Text style={[styles.question, darkMode ? styles.textLight : styles.textDark]}>
                                 question:
                             </Text>
@@ -70,24 +80,29 @@ const List: React.FC<Props> = (props) => {
                             >
                                 {item.title}
                             </Text>
-                            <View
-                                style={{ flexDirection: "row-reverse", marginTop: 10 }}
-                            >
-                                <Text style={darkMode ? styles.textLight : styles.textDark}>
-                                    {item.answer_count > 0 ? `${item.answer_count} answer` : `no answer`}
-                                </Text>
-                                <Text style={{ marginLeft: 10 }}>
-                                    {item.view_count} views
-                                </Text>
-                                <Text style={{ marginLeft: 10 }}>
-                                    {new Date(item.creation_date * 1000).toUTCString().slice(0, -13)}
-                                </Text>
+                            <View style={{ flexDirection: "row-reverse", marginTop: 10 }}>
+                                <View style={{ margin: 5 }}>
+                                    <Text style={darkMode ? styles.textLight : styles.textDark}>
+                                        {item.answer_count > 0 ? `${item.answer_count} answer` : `no answer`}
+                                    </Text>
+                                </View>
+                                <View style={{ margin: 5 }}>
+                                    <Text style={[{ marginLeft: 10 }, darkMode ? styles.textLight : styles.textDark]}>
+                                        {item.view_count} views
+                                    </Text>
+                                </View>
+                                <View style={{ margin: 5 }}>
+                                    <Text style={[{ marginLeft: 10 }, darkMode ? styles.textLight : styles.textDark]}>
+                                        {new Date(item.creation_date * 1000).toUTCString().slice(0, -13)}
+                                    </Text>
+                                </View>
                             </View>
                         </View>
-                    )}
-                    keyExtractor={(item) => item.question_id}
-                />
-            </View>
+                    </TouchableWithoutFeedback>
+                )}
+                keyExtractor={(item) => item.question_id}
+            />
+
         </>
     );
 };

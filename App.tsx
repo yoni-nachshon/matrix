@@ -21,7 +21,7 @@ import Answers from "./components/Answers";
 const App = () => {
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [userId, setUserId] = useState<string>("1264804");
+  const [userId, setUserId] = useState<string>('');
   const [user, setUser] = useState<any | null>(null);
   const [questions, setQuestions] = useState<any[]>([]);
   const [notFound, setNotFound] = useState<boolean>(false);
@@ -54,7 +54,7 @@ const App = () => {
 
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="auto" />
 
       <View style={darkMode ? styles.light : styles.dark}>
         <View style={styles.toggle}>
@@ -72,7 +72,7 @@ const App = () => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
-        <View style={styles.header}>
+        <View style={styles.container}>
           <Text style={darkMode ? styles.textLight : styles.textDark}>
             get Stack-Overflow posts
           </Text>
@@ -86,10 +86,12 @@ const App = () => {
           darkMode={darkMode}
           loading={loading} 
           notFound={notFound} 
-          user={user} 
+          user={user}
+          userId={userId} 
           />
           <List
           darkMode={darkMode}
+          setLoading={setLoading}
           user={user}
           questions={questions}
           setQuestions={setQuestions}
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginRight: 5,
   },
-  header: {
+  container: {
     flex: 1,
     alignItems: "center",
     marginTop: 20,

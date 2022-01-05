@@ -6,6 +6,7 @@ interface Props {
     loading: boolean
     notFound: boolean
     user: any
+    userId: string
 }
 
 const Card: React.FC<Props> = (props) => {
@@ -16,8 +17,8 @@ const Card: React.FC<Props> = (props) => {
                     <ActivityIndicator size="large" color="#808080" />
                 </View>
             )}
-      {props.notFound && (
-            <Text style={{ textAlign: "center" }}>user not found</Text>
+      {(props.notFound && !props.userId) && (
+            <Text style={[{ textAlign: "center" }, props.darkMode ? styles.textLight : styles.textDark]}>user not found</Text>
         )}
     
         {props.user && (
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
       },
       profileDetails: {
-        // marginLeft: 20,
+        margin: 10,
         justifyContent: "center",
       },
 });
