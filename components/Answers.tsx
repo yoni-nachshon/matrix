@@ -17,7 +17,7 @@ const Answers: React.FC<Props> = (props) => {
 
     return (
         <>
-            {loading && <ActivityIndicator size="large" color="#808080" />}
+            {loading && modalVisible && <ActivityIndicator size="large" color="#808080" />}
             <Modal animationType="slide" visible={modalVisible}>
                 <WebView
                     source={{ uri: link }}

@@ -22,7 +22,7 @@ const App = () => {
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("1264804");
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState<any | null>(null);
   const [questions, setQuestions] = useState<any[]>([]);
   const [notFound, setNotFound] = useState<boolean>(false);
 
@@ -46,7 +46,7 @@ const App = () => {
       setLoading(false);
       console.log(error);
       setNotFound(true);
-      setUser({});
+      setUser(null);
     }
   };
 
@@ -54,7 +54,7 @@ const App = () => {
 
   return (
     <>
-      <StatusBar style={darkMode ? "dark" : "light"} />
+      <StatusBar style="dark" />
 
       <View style={darkMode ? styles.light : styles.dark}>
         <View style={styles.toggle}>

@@ -4,7 +4,7 @@ import WebView from "react-native-webview";
 
 interface Props {
     darkMode: boolean
-    user: any
+    user?: (any | null)
     questions: any[]
     setQuestions: (questions) => void
     modalVisible: boolean
@@ -37,17 +37,18 @@ const List: React.FC<Props> = (props) => {
 
     return (
         <>
-            <View style={{ flexDirection: "row", marginTop: 10 }}>
+            <View style={{ flexDirection: 'row-reverse', marginTop: 10 }}>
                 <Text style={{ marginVertical: 10, marginRight: 5 }}>
                     sort by
                 </Text>
+                
                 <Button title="Date" onPress={() => sortByDate()} />
                 <Button title="Answers" onPress={() => sortByAnswers()} />
                 <Button title="Views" onPress={() => sortByViews()} />
             </View>
             <View style={{ marginTop: 10 }}>
                 <Text style={{ left: 10, fontSize: 16, fontWeight: "bold" }}>
-                    total questions: {user.items.length}
+                    total questions: {user && user.items.length}
                 </Text>
                 <FlatList
                     ItemSeparatorComponent={() => {
@@ -55,7 +56,7 @@ const List: React.FC<Props> = (props) => {
                             <View style={{ height: 1, width: "100%", backgroundColor: "#CED0CE" }} />
                         );
                     }}
-                    data={user.items}
+                    data={user && user.items}
                     extraData={questions}
                     renderItem={({ item }) => (
 
