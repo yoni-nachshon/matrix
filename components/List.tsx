@@ -5,12 +5,12 @@ interface Props {
     darkMode: boolean
     user?: (any | null)
     questions: any[]
-    setQuestions: (questions) => void
+    setQuestions: (questions: any[]) => void
     modalVisible: boolean
-    setModalVisible: (modalVisibl) => void
+    setModalVisible: (modalVisibl: boolean) => void
     link: string
-    setLink: (link) => void
-    setLoading: (loading) => void
+    setLink: (link: string) => void
+    setLoading: (loading: boolean) => void
 
 }
 const List: React.FC<Props> = (props) => {
@@ -30,10 +30,10 @@ const List: React.FC<Props> = (props) => {
         setQuestions([...sorted]);
     };
 
-    const openModal = link => {
+    const openModal = (link: string) => {
         setLink(link)
-        setModalVisible(!modalVisible)
         setLoading(true)
+        setModalVisible(!modalVisible)
     }
 
     return (
@@ -52,7 +52,11 @@ const List: React.FC<Props> = (props) => {
                         </View>
                     </View>
                     <View style={{ marginTop: 10 }}>
-                        <Text style={{ left: 10, fontSize: 16, fontWeight: "bold", marginBottom:5 }}>
+                        <Text style={[
+                            { left: 10, fontSize: 16, fontWeight: "bold", marginBottom: 10 },
+                            darkMode ? styles.textLight : styles.textDark
+
+                        ]}>
                             total questions: {user && user.items.length}
                         </Text>
                     </View>
@@ -68,7 +72,7 @@ const List: React.FC<Props> = (props) => {
                 extraData={questions}
                 renderItem={({ item }) => (
 
-                    <TouchableWithoutFeedback  onPress={() => openModal(item.link)}>
+                    <TouchableWithoutFeedback onPress={() => openModal(item.link)}>
                         <View style={styles.item} >
 
                             <Text style={[styles.question, darkMode ? styles.textLight : styles.textDark]}>

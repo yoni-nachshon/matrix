@@ -1,17 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  TextInput,
-  Switch,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  ActivityIndicator,
-  Image,
-  FlatList,
-  Modal,
-} from "react-native";
+import { Switch, StyleSheet, Text, View } from "react-native";
 
 import Search from "./components/Search";
 import Card from "./components/Card";
@@ -19,8 +8,10 @@ import List from "./components/List";
 import Answers from "./components/Answers";
 
 const App = () => {
+
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  
   const [userId, setUserId] = useState<string>('');
   const [user, setUser] = useState<any | null>(null);
   const [questions, setQuestions] = useState<any[]>([]);
@@ -50,7 +41,7 @@ const App = () => {
     }
   };
 
- 
+
 
   return (
     <>
@@ -58,13 +49,16 @@ const App = () => {
 
       <View style={darkMode ? styles.light : styles.dark}>
         <View style={styles.toggle}>
+
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
             thumbColor={darkMode ? "#6495ed" : "#f0f8ff"}
             onValueChange={() => setDarkMode(!darkMode)}
             value={darkMode}
           />
+
         </View>
+
         <Answers
           loading={loading}
           setLoading={setLoading}
@@ -72,34 +66,38 @@ const App = () => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
+
         <View style={styles.container}>
           <Text style={darkMode ? styles.textLight : styles.textDark}>
             get Stack-Overflow posts
           </Text>
+
           <Search
             darkMode={darkMode}
             userId={userId}
             setUserId={setUserId}
             getUser={getUserById}
           />
-          <Card 
-          darkMode={darkMode}
-          loading={loading} 
-          notFound={notFound} 
-          user={user}
-          userId={userId} 
+
+          <Card
+            darkMode={darkMode}
+            loading={loading}
+            notFound={notFound}
+            user={user}
           />
+
           <List
-          darkMode={darkMode}
-          setLoading={setLoading}
-          user={user}
-          questions={questions}
-          setQuestions={setQuestions}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          link={link}
-          setLink={setLink} 
-          />         
+            darkMode={darkMode}
+            setLoading={setLoading}
+            user={user}
+            questions={questions}
+            setQuestions={setQuestions}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            link={link}
+            setLink={setLink}
+          />
+
         </View>
       </View>
     </>

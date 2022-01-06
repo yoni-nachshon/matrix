@@ -1,31 +1,34 @@
 import React from 'react';
-import {View, Text,TextInput,Button, StyleSheet} from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
 interface Props {
-    darkMode:boolean 
-    userId:string
-    setUserId: (userId: string) => void 
-    getUser: () => void
+  darkMode: boolean
+  userId: string
+  setUserId: (userId: string) => void
+  getUser: () => void
 }
 
 const Search: React.FC<Props> = (props) => {
+
+  const { darkMode, userId, setUserId, getUser } = props
+
   return (
     <View style={styles.inputRow}>
-            <TextInput
-              style={[
-               {borderColor: props.darkMode ? '#000' : '#fff' },
-                styles.input,
-                props.darkMode ? styles.textLight : styles.textDark,
-                
-              ]}
-              placeholder="Search user Id"
-              onChangeText={(num) => props.setUserId(num)}
-              value={props.userId}
-            />
-            <View style={styles.btn}>
-              <Button title="Search" onPress={() => props.getUser()} />
-            </View>
-          </View>
+      <TextInput
+        style={[
+          { borderColor: darkMode ? '#000' : '#fff' },
+          styles.input,
+          darkMode ? styles.textLight : styles.textDark,
+
+        ]}
+        placeholder="Search user Id"
+        onChangeText={(num) => setUserId(num)}
+        value={userId}
+      />
+      <View style={styles.btn}>
+        <Button title="Search" onPress={() => getUser()} />
+      </View>
+    </View>
   );
 };
 const styles = StyleSheet.create({
