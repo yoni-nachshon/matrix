@@ -4,10 +4,10 @@ This app was generated with [Expo CLI](https://docs.expo.dev/)
 
 ## Build
 
-1. git clone https://github.com/yoni-nachshon/matrix.git 
-2. npm install -g expo-cli
-3. npm i
-4. npm start
+* git clone https://github.com/yoni-nachshon/matrix.git 
+* npm install expo-cli
+* npm i
+* npm start
 
 ## Running your React Native application
 
