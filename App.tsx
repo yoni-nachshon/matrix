@@ -45,8 +45,7 @@ const App = () => {
 
   return (
     <>
-      <StatusBar style="auto" />
-
+      <StatusBar style={darkMode ? "dark" : "light"} />
       <View style={darkMode ? styles.light : styles.dark}>
         <View style={styles.toggle}>
 
@@ -108,17 +107,16 @@ const styles = StyleSheet.create({
   light: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "center",
-    marginTop: 40,
+    justifyContent: "center",   
   },
   dark: {
     flex: 1,
     backgroundColor: "#000",
     justifyContent: "center",
-    marginTop: 40,
   },
   toggle: {
     flexDirection: "row",
+    marginTop:30,
     marginRight: 5,
   },
   container: {

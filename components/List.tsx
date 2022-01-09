@@ -55,7 +55,6 @@ const List: React.FC<Props> = (props) => {
                         <Text style={[
                             { left: 10, fontSize: 16, fontWeight: "bold", marginBottom: 10 },
                             darkMode ? styles.textLight : styles.textDark
-
                         ]}>
                             total questions: {user && user.items.length}
                         </Text>
