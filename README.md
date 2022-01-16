@@ -1,4 +1,4 @@
-# stack overflow app
+# Get Stack-Overflow posts Application
 
 This app was generated with [Expo CLI](https://docs.expo.dev/)
 
