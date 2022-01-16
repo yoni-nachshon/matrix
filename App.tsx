@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Switch, StyleSheet, Text, View } from "react-native";
 
@@ -8,21 +8,34 @@ import List from "./components/List";
 import Answers from "./components/Answers";
 
 const App = () => {
-
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  
+
   const [userId, setUserId] = useState<string>('');
   const [user, setUser] = useState<any | null>(null);
   const [questions, setQuestions] = useState<any[]>([]);
-  const [notFound, setNotFound] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [link, setLink] = useState<string>('')
+  const [link, setLink] = useState<string>('');
+
+  useEffect(() => {
+    if (userId === '') {
+      setUser(null)
+      setQuestions([])
+    }
+    setMessage('')
+
+  }, [userId])
 
   const getUserById = async () => {
     setLoading(true);
     try {
+      if (userId === '') {
+        setLoading(false);
+        setMessage('Please enter a userId')
+        return;
+      }
       const res = await fetch(
         `https://api.stackexchange.com/2.3/users/${userId}/questions?order=desc&sort=activity&site=stackoverflow`
       );
@@ -32,30 +45,26 @@ const App = () => {
         setUser(data);
       }
       setLoading(false);
-      setNotFound(false);
+      setMessage('');
     } catch (error) {
       setLoading(false);
       console.log(error);
-      setNotFound(true);
+      setMessage('user not found');
       setUser(null);
     }
   };
-
-
 
   return (
     <>
       <StatusBar style={darkMode ? "dark" : "light"} />
       <View style={darkMode ? styles.light : styles.dark}>
         <View style={styles.toggle}>
-
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
             thumbColor={darkMode ? "#6495ed" : "#f0f8ff"}
             onValueChange={() => setDarkMode(!darkMode)}
             value={darkMode}
           />
-
         </View>
 
         <Answers
@@ -81,8 +90,9 @@ const App = () => {
           <Card
             darkMode={darkMode}
             loading={loading}
-            notFound={notFound}
+            // notFound={notFound}
             user={user}
+            message={message}
           />
 
           <List
@@ -96,18 +106,17 @@ const App = () => {
             link={link}
             setLink={setLink}
           />
-
         </View>
       </View>
     </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   light: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "center",   
+    justifyContent: "center",
   },
   dark: {
     flex: 1,
@@ -116,8 +125,7 @@ const styles = StyleSheet.create({
   },
   toggle: {
     flexDirection: "row",
-    marginTop:30,
-    marginRight: 5,
+    marginTop: 30,
   },
   container: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Keyboard } from 'react-native';
 
 interface Props {
   darkMode: boolean
@@ -11,6 +11,11 @@ interface Props {
 const Search: React.FC<Props> = (props) => {
 
   const { darkMode, userId, setUserId, getUser } = props
+
+  const onPress = () => {
+    getUser()
+    Keyboard.dismiss()
+  }
 
   return (
     <View style={styles.inputRow}>
@@ -24,9 +29,10 @@ const Search: React.FC<Props> = (props) => {
         placeholder="Search user Id"
         onChangeText={(num) => setUserId(num)}
         value={userId}
+
       />
-      <View style={styles.btn}>
-        <Button title="Search" onPress={() => getUser()} />
+      <View style={styles.btn}  >
+        <Button title="Search" onPress={onPress} />
       </View>
     </View>
   );

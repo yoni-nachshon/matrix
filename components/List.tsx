@@ -12,10 +12,11 @@ interface Props {
     setLink: (link: string) => void
     setLoading: (loading: boolean) => void
 
+
 }
 const List: React.FC<Props> = (props) => {
 
-    const { user, darkMode, questions, setQuestions, modalVisible, setModalVisible, link, setLink, setLoading } = props
+    const { user, darkMode, questions, setQuestions, modalVisible, setModalVisible, setLink, setLoading } = props
 
     const sortByDate = () => {
         const sorted = user.items.sort((a: { creation_date: number; }, b: { creation_date: number; }) => b.creation_date - a.creation_date);
