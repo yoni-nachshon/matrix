@@ -41,7 +41,7 @@ const List: React.FC<Props> = (props) => {
         <>
             {user && (
                 <>
-                    <View style={{ flexDirection: 'row-reverse', marginTop: 10 }}>
+                    <View style={styles().sorting}>
                         <View style={{ margin: 5 }}>
                             <Button title="Date" onPress={() => sortByDate()} />
                         </View>
@@ -54,8 +54,8 @@ const List: React.FC<Props> = (props) => {
                     </View>
                     <View style={{ marginTop: 10 }}>
                         <Text style={[
-                            { left: 10, fontSize: 16, fontWeight: "bold", marginBottom: 10 },
-                            darkMode ? styles.textLight : styles.textDark
+                            styles().total,
+                            styles(darkMode).text
                         ]}>
                             total questions: {user && user.items.length}
                         </Text>
@@ -65,7 +65,7 @@ const List: React.FC<Props> = (props) => {
             <FlatList
                 ItemSeparatorComponent={() => {
                     return (
-                        <View style={{ height: 1, width: "100%", backgroundColor: "#CED0CE" }} />
+                        <View style={styles().Separator} />
                     );
                 }}
                 data={user && user.items}
@@ -73,30 +73,30 @@ const List: React.FC<Props> = (props) => {
                 renderItem={({ item }) => (
 
                     <TouchableWithoutFeedback onPress={() => openModal(item.link)}>
-                        <View style={styles.item} >
+                        <View style={styles().item} >
 
-                            <Text style={[styles.question, darkMode ? styles.textLight : styles.textDark]}>
+                            <Text style={[styles().question, styles(darkMode).text]}>
                                 question:
                             </Text>
                             <Text
                                 onPress={() => openModal(item.link)}
-                                style={[styles.titleText, darkMode ? styles.textLight : styles.textDark]}
+                                style={[styles().titleText, styles(darkMode).text]}
                             >
                                 {item.title}
                             </Text>
-                            <View style={{ flexDirection: "row-reverse", marginTop: 10 }}>
+                            <View style={styles().sorting}>
                                 <View style={{ margin: 5 }}>
-                                    <Text style={darkMode ? styles.textLight : styles.textDark}>
+                                    <Text style={styles(darkMode).text}>
                                         {item.answer_count > 0 ? `${item.answer_count} answer` : `no answer`}
                                     </Text>
                                 </View>
                                 <View style={{ margin: 5 }}>
-                                    <Text style={[{ marginLeft: 10 }, darkMode ? styles.textLight : styles.textDark]}>
+                                    <Text style={[{ marginLeft: 10 }, styles(darkMode).text]}>
                                         {item.view_count} views
                                     </Text>
                                 </View>
                                 <View style={{ margin: 5 }}>
-                                    <Text style={[{ marginLeft: 10 }, darkMode ? styles.textLight : styles.textDark]}>
+                                    <Text style={[{ marginLeft: 10 }, styles(darkMode).text]}>
                                         {new Date(item.creation_date * 1000).toUTCString().slice(0, -13)}
                                     </Text>
                                 </View>
@@ -110,7 +110,11 @@ const List: React.FC<Props> = (props) => {
         </>
     );
 };
-const styles = StyleSheet.create({
+const styles = (darkMode?: boolean) => StyleSheet.create({
+    text: {
+        backgroundColor: darkMode ? "#fff" : "#000",
+        color: darkMode ? "#000" : "#fff"
+    },
     question: {
         fontSize: 16,
         fontWeight: "bold",
@@ -119,16 +123,23 @@ const styles = StyleSheet.create({
         padding: 10,
         marginHorizontal: 4,
     },
-    textLight: {
-        backgroundColor: "#fff",
-        color: "#000",
-    },
-    textDark: {
-        backgroundColor: "#000",
-        color: "#fff",
+    total: {
+        left: 10,
+        fontSize: 16,
+        fontWeight: "bold",
+        marginBottom: 10
     },
     titleText: {
         marginTop: 5,
+    },
+    Separator: {
+        height: 1,
+        width: "100%",
+        backgroundColor: "#CED0CE"
+    },
+    sorting: {
+        flexDirection: "row-reverse",
+        marginTop: 10
     },
 });
 export default List;

@@ -11,31 +11,33 @@ const App = () => {
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [userId, setUserId] = useState<string>('');
+  const [userId, setUserId] = useState<string>("");
   const [user, setUser] = useState<any | null>(null);
   const [questions, setQuestions] = useState<any[]>([]);
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>("");
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [link, setLink] = useState<string>('');
+  const [link, setLink] = useState<string>("");
 
   useEffect(() => {
-    if (userId === '') {
-      setUser(null)
-      setQuestions([])
+    if (userId === "") {
+      setUser(null);
+      setQuestions([]);
     }
-    setMessage('')
-
-  }, [userId])
+    setMessage("");
+  }, [userId]);
 
   const getUserById = async () => {
-    setLoading(true);
     try {
-      if (userId === '') {
+      if (userId === "") {
         setLoading(false);
-        setMessage('Please enter a userId')
+        setMessage("Please enter a valid id");
         return;
       }
+      setUser(null);
+      setQuestions([]);
+      setMessage("");
+      setLoading(true);
       const res = await fetch(
         `https://api.stackexchange.com/2.3/users/${userId}/questions?order=desc&sort=activity&site=stackoverflow`
       );
@@ -45,11 +47,11 @@ const App = () => {
         setUser(data);
       }
       setLoading(false);
-      setMessage('');
+      setMessage("");
     } catch (error) {
       setLoading(false);
       console.log(error);
-      setMessage('user not found');
+      setMessage("user not found");
       setUser(null);
     }
   };
@@ -57,8 +59,8 @@ const App = () => {
   return (
     <>
       <StatusBar style={darkMode ? "dark" : "light"} />
-      <View style={darkMode ? styles.light : styles.dark}>
-        <View style={styles.toggle}>
+      <View style={styles(darkMode).app}>
+        <View style={styles().toggle}>
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
             thumbColor={darkMode ? "#6495ed" : "#f0f8ff"}
@@ -75,13 +77,12 @@ const App = () => {
           setModalVisible={setModalVisible}
         />
 
-        <View style={styles.container}>
-          <Text style={darkMode ? styles.textLight : styles.textDark}>
-            get Stack-Overflow posts
-          </Text>
+        <View style={styles().container}>
+          <Text style={styles(darkMode).text}>Stack Overflow App</Text>
 
           <Search
             darkMode={darkMode}
+            user={user}
             userId={userId}
             setUserId={setUserId}
             getUser={getUserById}
@@ -90,9 +91,9 @@ const App = () => {
           <Card
             darkMode={darkMode}
             loading={loading}
-            // notFound={notFound}
             user={user}
             message={message}
+            modalVisible={modalVisible}
           />
 
           <List
@@ -112,33 +113,24 @@ const App = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  light: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-  },
-  dark: {
-    flex: 1,
-    backgroundColor: "#000",
-    justifyContent: "center",
-  },
-  toggle: {
-    flexDirection: "row",
-    marginTop: 30,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    marginTop: 20,
-  },
-  textLight: {
-    backgroundColor: "#fff",
-    color: "#000",
-  },
-  textDark: {
-    backgroundColor: "#000",
-    color: "#fff",
-  },
-});
+const styles = (darkMode?: boolean) => StyleSheet.create({
+    app: {
+      flex: 1,
+      backgroundColor: darkMode ? "#fff" : "#000",
+      justifyContent: "center",
+    },
+    toggle: {
+      flexDirection: "row",
+      marginTop: 30,
+    },
+    container: {
+      flex: 1,
+      alignItems: "center",
+      marginTop: 20,
+    },
+    text: {
+      backgroundColor: darkMode ? "#fff" : "#000",
+      color: darkMode ? "#000" : "#fff",
+    },
+  });
 export default App;

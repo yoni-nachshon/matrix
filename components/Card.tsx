@@ -4,18 +4,16 @@ import { View, Text, ActivityIndicator, Image, StyleSheet } from "react-native";
 interface Props {
     darkMode: boolean;
     loading: boolean;
-    // notFound: boolean;
     user: any;
     message: string
-
-
+    modalVisible: boolean
 }
 
 const Card: React.FC<Props> = (props) => {
-    const { darkMode, loading, user, message } = props;
+    const { darkMode, loading, user, message, modalVisible } = props;
     return (
         <>
-            {loading && (
+            {(loading && !modalVisible) && (
                 <View>
                     <ActivityIndicator size="large" color="#808080" />
                 </View>
@@ -23,8 +21,8 @@ const Card: React.FC<Props> = (props) => {
             {message ? (
                 <Text
                     style={[
-                        { textAlign: "center", marginTop: 1 },
-                        darkMode ? styles.textLight : styles.textDark,
+                        styles().message,
+                        styles(darkMode).text
                     ]}
                 >
                     {message}
@@ -34,19 +32,19 @@ const Card: React.FC<Props> = (props) => {
 
             {user && (
                 <>
-                    <View style={styles.profileRow}>
+                    <View style={styles().profileRow}>
                         <Image
                             style={{ width: 100, height: 100 }}
                             source={{ uri: user.items[0].owner.profile_image }}
                         />
-                        <View style={styles.profileDetails}>
-                            <Text style={darkMode ? styles.textLight : styles.textDark}>
+                        <View style={styles().profileDetails}>
+                            <Text style={styles(darkMode).text}>
                                 User Name: {user.items[0].owner.display_name}
                             </Text>
-                            <Text style={darkMode ? styles.textLight : styles.textDark}>
+                            <Text style={styles(darkMode).text}>
                                 Reputation: {user.items[0].owner.reputation}
                             </Text>
-                            <Text style={darkMode ? styles.textLight : styles.textDark}>
+                            <Text style={styles(darkMode).text}>
                                 Accept Rate: {user.items[0].owner.accept_rate}
                             </Text>
                         </View>
@@ -56,14 +54,14 @@ const Card: React.FC<Props> = (props) => {
         </>
     );
 };
-const styles = StyleSheet.create({
-    textLight: {
-        backgroundColor: "#fff",
-        color: "#000",
+const styles = (darkMode?: boolean) => StyleSheet.create({    
+    text: {
+        backgroundColor: darkMode ? "#fff" : "#000",
+        color: darkMode ? "#000" : "#fff"
     },
-    textDark: {
-        backgroundColor: "#000",
-        color: "#fff",
+    message: {
+        textAlign: "center",
+        marginTop: 1
     },
     profileRow: {
         flexDirection: "row-reverse",

@@ -25,21 +25,15 @@ const Answers: React.FC<Props> = (props) => {
                 />
                 <Button
                     title="go back"
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => setModalVisible(!modalVisible)} 
+                    disabled={loading ? true : false}                  
                 />
             </Modal>
         </>
     )
 }
 const styles = StyleSheet.create({
-    textLight: {
-        backgroundColor: "#fff",
-        color: "#000",
-    },
-    textDark: {
-        backgroundColor: "#000",
-        color: "#fff",
-    },
+  
     loading: {
         justifyContent: 'center',
     }
