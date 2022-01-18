@@ -54,19 +54,18 @@ const Card: React.FC<Props> = (props) => {
         </>
     );
 };
-const styles = (darkMode?: boolean) => StyleSheet.create({    
+const styles = (darkMode?: boolean) => StyleSheet.create({
     text: {
         backgroundColor: darkMode ? "#fff" : "#000",
         color: darkMode ? "#000" : "#fff"
     },
     message: {
-        textAlign: "center",
-        marginTop: 1
+        marginTop: 20,        
     },
     profileRow: {
         flexDirection: "row-reverse",
         marginTop: 20,
-        justifyContent: "space-between",
+        justifyContent: "space-between",      
     },
     profileDetails: {
         margin: 10,

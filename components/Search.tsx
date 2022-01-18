@@ -1,39 +1,46 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Keyboard } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Keyboard,
+} from "react-native";
 
 interface Props {
-  darkMode: boolean
-  user?: (any | null)
-  userId: string
-  setUserId: (userId: string) => void
-  getUser: () => void
+  darkMode: boolean;
+  user?: any | null;
+  userId: string;
+  setUserId: (userId: string) => void;
+  getUser: () => void;
 }
 
 const Search: React.FC<Props> = (props) => {
-
-  const { darkMode, user, userId, setUserId, getUser } = props
+  const { darkMode, user, userId, setUserId, getUser } = props;
 
   const onPress = () => {
     if (user === null || user.items[0].owner.user_id !== +userId) {
-      getUser()
-      Keyboard.dismiss()
+      getUser();
+      Keyboard.dismiss();
     }
-  }
+  };
 
   return (
     <View style={styles().inputRow}>
       <TextInput
-        style={[
-          styles(darkMode).input,
-          styles(darkMode).text
-        ]}
+        style={[styles(darkMode).input, styles(darkMode).text]}
         placeholder="Search user Id"
         onChangeText={(num) => setUserId(num)}
         value={userId}
-        keyboardType='numeric'
+        keyboardType="numeric"
       />
-      <View style={styles().btn}  >
-        <Button title="Search" onPress={onPress} />
+      <View style={styles().btn}>
+        <Button
+          title="Search"
+          onPress={onPress}
+          disabled={user && user.items[0].owner.user_id === +userId ? true : false}
+        />
       </View>
     </View>
   );
@@ -41,11 +48,11 @@ const Search: React.FC<Props> = (props) => {
 const styles = (darkMode?: boolean) => StyleSheet.create({
   text: {
     backgroundColor: darkMode ? "#fff" : "#000",
-    color: darkMode ? "#000" : "#fff"
+    color: darkMode ? "#000" : "#fff",
   },
   inputRow: {
     flexDirection: "row-reverse",
-    marginTop: 20
+    marginTop: 20,
   },
   textLight: {
     backgroundColor: "#fff",
@@ -59,7 +66,7 @@ const styles = (darkMode?: boolean) => StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    borderColor: darkMode ? '#000' : '#fff',
+    borderColor: darkMode ? "#000" : "#fff",
     width: "50%",
     alignItems: "center",
     height: 40,

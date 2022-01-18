@@ -15,6 +15,11 @@ const Answers: React.FC<Props> = (props) => {
 
     const { link, loading, setLoading, modalVisible, setModalVisible } = props
 
+    const onPress = () => {
+        setModalVisible(!modalVisible)
+        setLoading(false)
+    }
+
     return (
         <>
             <Modal animationType="slide" visible={modalVisible} >
@@ -25,8 +30,7 @@ const Answers: React.FC<Props> = (props) => {
                 />
                 <Button
                     title="go back"
-                    onPress={() => setModalVisible(!modalVisible)} 
-                    disabled={loading ? true : false}                  
+                    onPress={onPress}                  
                 />
             </Modal>
         </>

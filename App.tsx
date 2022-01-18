@@ -43,7 +43,7 @@ const App = () => {
       );
       const data = await res.json();
       if (data.items[0].owner) {
-        console.log(data.items);
+        console.log(data.items)
         setUser(data);
       }
       setLoading(false);
@@ -78,7 +78,7 @@ const App = () => {
         />
 
         <View style={styles().container}>
-          <Text style={styles(darkMode).text}>Stack Overflow App</Text>
+          <Text style={styles(darkMode).text}>Get Stack Overflow posts</Text>
 
           <Search
             darkMode={darkMode}
