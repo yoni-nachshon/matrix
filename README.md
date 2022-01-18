@@ -2,9 +2,8 @@
 
 This app was generated with [Expo CLI](https://docs.expo.dev/)
 
-## Build
-
-* git clone https://github.com/yoni-nachshon/matrix.git 
+## Run
+ 
 * npm install expo-cli
 * npm i
 * npm start
