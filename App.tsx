@@ -8,6 +8,7 @@ import List from "./components/List";
 import Answers from "./components/Answers";
 
 const App = () => {
+
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -60,6 +61,7 @@ const App = () => {
     <>
       <StatusBar style={darkMode ? "dark" : "light"} />
       <View style={styles(darkMode).app}>
+
         <View style={styles().toggle}>
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -78,7 +80,9 @@ const App = () => {
         />
 
         <View style={styles().container}>
-          <Text style={styles(darkMode).text}>Get Stack Overflow posts</Text>
+          <Text style={styles(darkMode).text}>
+            Get Stack Overflow posts
+          </Text>
 
           <Search
             darkMode={darkMode}
@@ -107,6 +111,7 @@ const App = () => {
             link={link}
             setLink={setLink}
           />
+          
         </View>
       </View>
     </>
@@ -114,23 +119,23 @@ const App = () => {
 };
 
 const styles = (darkMode?: boolean) => StyleSheet.create({
-    app: {
-      flex: 1,
-      backgroundColor: darkMode ? "#fff" : "#000",
-      justifyContent: "center",
-    },
-    toggle: {
-      flexDirection: "row",
-      marginTop: 30,
-    },
-    container: {
-      flex: 1,
-      alignItems: "center",
-      marginTop: 20,
-    },
-    text: {
-      backgroundColor: darkMode ? "#fff" : "#000",
-      color: darkMode ? "#000" : "#fff",
-    },
-  });
+  app: {
+    flex: 1,
+    backgroundColor: darkMode ? "#fff" : "#000",
+    justifyContent: "center",
+  },
+  toggle: {
+    flexDirection: "row",
+    marginTop: 30,
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  text: {
+    backgroundColor: darkMode ? "#fff" : "#000",
+    color: darkMode ? "#000" : "#fff",
+  },
+});
 export default App;

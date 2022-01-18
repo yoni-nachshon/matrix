@@ -3,7 +3,7 @@ import { View, Text, Button, TouchableWithoutFeedback, FlatList, StyleSheet } fr
 
 interface Props {
     darkMode: boolean
-    user?: (any | null)
+    user?: any | null
     questions: any[]
     setQuestions: (questions: any[]) => void
     modalVisible: boolean
@@ -11,8 +11,6 @@ interface Props {
     link: string
     setLink: (link: string) => void
     setLoading: (loading: boolean) => void
-
-
 }
 const List: React.FC<Props> = (props) => {
 
@@ -71,10 +69,8 @@ const List: React.FC<Props> = (props) => {
                 data={user && user.items}
                 extraData={questions}
                 renderItem={({ item }) => (
-
                     <TouchableWithoutFeedback onPress={() => openModal(item.link)}>
                         <View style={styles().item} >
-
                             <Text style={[styles().question, styles(darkMode).text]}>
                                 question:
                             </Text>
@@ -106,7 +102,6 @@ const List: React.FC<Props> = (props) => {
                 )}
                 keyExtractor={(item) => item.question_id}
             />
-
         </>
     );
 };

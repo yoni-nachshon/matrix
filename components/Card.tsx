@@ -29,7 +29,6 @@ const Card: React.FC<Props> = (props) => {
                 </Text>
             ) : null}
 
-
             {user && (
                 <>
                     <View style={styles().profileRow}>

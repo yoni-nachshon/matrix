@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
   TextInput,
   Button,
   StyleSheet,
@@ -17,6 +16,7 @@ interface Props {
 }
 
 const Search: React.FC<Props> = (props) => {
+  
   const { darkMode, user, userId, setUserId, getUser } = props;
 
   const onPress = () => {
