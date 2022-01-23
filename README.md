@@ -3,7 +3,8 @@
 This app was generated with [Expo CLI](https://docs.expo.dev/)
 
 ## Run
- 
+
+* git clone the repo
 * npm install expo-cli
 * npm i
 * npm start
