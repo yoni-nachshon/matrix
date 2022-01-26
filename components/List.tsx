@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Button, TouchableWithoutFeedback, FlatList, StyleSheet } from 'react-native';
 
 interface Props {
@@ -14,25 +14,23 @@ interface Props {
 }
 const List: React.FC<Props> = (props) => {
 
-    const { user, darkMode, questions, setQuestions, modalVisible, setModalVisible, setLink, setLoading } = props
+    const { user, darkMode, setQuestions, modalVisible, setModalVisible, setLink, setLoading } = props
 
-    const sortByDate = () => {
-        const sorted = user.items.sort((a: { creation_date: number; }, b: { creation_date: number; }) => b.creation_date - a.creation_date);
-        setQuestions([...sorted]);
-    };
-    const sortByAnswers = () => {
-        const sorted = user.items.sort((a: { answer_count: number; }, b: { answer_count: number; }) => b.answer_count - a.answer_count);
-        setQuestions([...sorted]);
-    };
-    const sortByViews = () => {
-        const sorted = user.items.sort((a: { view_count: number; }, b: { view_count: number; }) => b.view_count - a.view_count);
+    useEffect(() => {
+        if (!modalVisible) {
+            setLoading(false)
+        }
+    }, [modalVisible])
+
+    const sortHandler = (sortBy: string) => {
+        const sorted = user.items.sort((a: any, b: any) => b[sortBy] - a[sortBy]);
         setQuestions([...sorted]);
     };
 
     const openModal = (link: string) => {
         setLink(link)
-        setLoading(true)
         setModalVisible(!modalVisible)
+        setLoading(true)
     }
 
     return (
@@ -41,13 +39,13 @@ const List: React.FC<Props> = (props) => {
                 <>
                     <View style={styles().sorting}>
                         <View style={{ margin: 5 }}>
-                            <Button title="Date" onPress={() => sortByDate()} />
+                            <Button title="Date" onPress={() => sortHandler("creation_date")} />
                         </View>
                         <View style={{ margin: 5 }}>
-                            <Button title="Answers" onPress={() => sortByAnswers()} />
+                            <Button title="Answers" onPress={() => sortHandler("answer_count")} />
                         </View>
                         <View style={{ margin: 5 }}>
-                            <Button title="Views" onPress={() => sortByViews()} />
+                            <Button title="Views" onPress={() => sortHandler("view_count")} />
                         </View>
                     </View>
                     <View style={{ marginTop: 10 }}>
@@ -61,13 +59,8 @@ const List: React.FC<Props> = (props) => {
                 </>
             )}
             <FlatList
-                ItemSeparatorComponent={() => {
-                    return (
-                        <View style={styles().Separator} />
-                    );
-                }}
+                ItemSeparatorComponent={() => <View style={styles().Separator} />}
                 data={user && user.items}
-                extraData={questions}
                 renderItem={({ item }) => (
                     <TouchableWithoutFeedback onPress={() => openModal(item.link)}>
                         <View style={styles().item} >
@@ -75,7 +68,6 @@ const List: React.FC<Props> = (props) => {
                                 question:
                             </Text>
                             <Text
-                                onPress={() => openModal(item.link)}
                                 style={[styles().titleText, styles(darkMode).text]}
                             >
                                 {item.title}
