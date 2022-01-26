@@ -31,6 +31,7 @@ const Search: React.FC<Props> = (props) => {
       <TextInput
         style={[styles(darkMode).input, styles(darkMode).text]}
         placeholder="Search user Id"
+        placeholderTextColor={darkMode ? "gray" : "white"}
         onChangeText={(num) => setUserId(num)}
         value={userId}
         keyboardType="numeric"
