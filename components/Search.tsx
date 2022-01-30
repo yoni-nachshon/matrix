@@ -5,6 +5,7 @@ import {
   Button,
   StyleSheet,
   Keyboard,
+  ScrollView
 } from "react-native";
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const Search: React.FC<Props> = (props) => {
-  
+
   const { darkMode, user, userId, setUserId, getUser } = props;
 
   const onPress = () => {
@@ -28,14 +29,16 @@ const Search: React.FC<Props> = (props) => {
 
   return (
     <View style={styles().inputRow}>
-      <TextInput
-        style={[styles(darkMode).input, styles(darkMode).text]}
-        placeholder="Search user Id"
-        placeholderTextColor={darkMode ? "gray" : "white"}
-        onChangeText={(num) => setUserId(num)}
-        value={userId}
-        keyboardType="numeric"
-      />
+      <ScrollView>
+        <TextInput
+          style={[styles(darkMode).input, styles(darkMode).text]}
+          placeholder={"Search user Id"}
+          placeholderTextColor={darkMode ? "gray" : "white"}
+          onChangeText={(num) => setUserId(num)}
+          value={userId}
+          keyboardType="numeric"
+        />
+      </ScrollView>
       <View style={styles().btn}>
         <Button
           title="Search"
@@ -54,6 +57,7 @@ const styles = (darkMode?: boolean) => StyleSheet.create({
   inputRow: {
     flexDirection: "row-reverse",
     marginTop: 20,
+    marginRight:70
   },
   textLight: {
     backgroundColor: "#fff",
@@ -68,7 +72,7 @@ const styles = (darkMode?: boolean) => StyleSheet.create({
   },
   input: {
     borderColor: darkMode ? "#000" : "#fff",
-    width: "50%",
+    width: "70%",
     alignItems: "center",
     height: 40,
     margin: 12,
