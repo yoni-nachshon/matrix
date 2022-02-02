@@ -5,7 +5,8 @@ import {
   Button,
   StyleSheet,
   Keyboard,
-  ScrollView
+  ScrollView,
+  NativeEventEmitter
 } from "react-native";
 
 interface Props {
@@ -26,26 +27,21 @@ const Search: React.FC<Props> = (props) => {
       Keyboard.dismiss();
     }
   };
-
+    
   return (
     <View style={styles().inputRow}>
       <ScrollView>
         <TextInput
+          autoFocus
           style={[styles(darkMode).input, styles(darkMode).text]}
           placeholder={"Search user Id"}
           placeholderTextColor={darkMode ? "gray" : "white"}
           onChangeText={(num) => setUserId(num)}
           value={userId}
           keyboardType="numeric"
+          onSubmitEditing={onPress}
         />
-      </ScrollView>
-      <View style={styles().btn}>
-        <Button
-          title="Search"
-          onPress={onPress}
-          disabled={user && user.items[0].owner.user_id === +userId ? true : false}
-        />
-      </View>
+      </ScrollView>     
     </View>
   );
 };
@@ -56,8 +52,8 @@ const styles = (darkMode?: boolean) => StyleSheet.create({
   },
   inputRow: {
     flexDirection: "row-reverse",
-    marginTop: 20,
-    marginRight:70
+    marginTop: 10,
+    marginRight: 70
   },
   textLight: {
     backgroundColor: "#fff",
@@ -67,16 +63,13 @@ const styles = (darkMode?: boolean) => StyleSheet.create({
     backgroundColor: "#000",
     color: "#fff",
   },
-  btn: {
-    justifyContent: "center",
-  },
   input: {
     borderColor: darkMode ? "#000" : "#fff",
     width: "70%",
     alignItems: "center",
     height: 40,
     margin: 12,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     padding: 10,
   },
 });
