@@ -2,12 +2,11 @@ import React from "react";
 import {
   View,
   TextInput,
-  Button,
   StyleSheet,
   Keyboard,
   ScrollView,
-  NativeEventEmitter
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 interface Props {
   darkMode: boolean;
@@ -18,7 +17,6 @@ interface Props {
 }
 
 const Search: React.FC<Props> = (props) => {
-
   const { darkMode, user, userId, setUserId, getUser } = props;
 
   const onPress = () => {
@@ -27,50 +25,57 @@ const Search: React.FC<Props> = (props) => {
       Keyboard.dismiss();
     }
   };
-    
+
   return (
-    <View style={styles().inputRow}>
+    <View style={styles().search}>
       <ScrollView>
         <TextInput
           autoFocus
           style={[styles(darkMode).input, styles(darkMode).text]}
           placeholder={"Search user Id"}
           placeholderTextColor={darkMode ? "gray" : "white"}
-          onChangeText={(num) => setUserId(num)}
+          onChangeText={(value) => setUserId(value)}
           value={userId}
           keyboardType="numeric"
           onSubmitEditing={onPress}
         />
-      </ScrollView>     
+        {userId.length ?
+          <AntDesign
+            style={styles().icon}
+            name="close"
+            size={20}
+            color={darkMode ? "black" : "white"}
+            onPress={() => setUserId("")}
+          /> : null
+        }
+  </ScrollView>
     </View>
   );
 };
-const styles = (darkMode?: boolean) => StyleSheet.create({
-  text: {
-    backgroundColor: darkMode ? "#fff" : "#000",
-    color: darkMode ? "#000" : "#fff",
-  },
-  inputRow: {
-    flexDirection: "row-reverse",
-    marginTop: 10,
-    marginRight: 70
-  },
-  textLight: {
-    backgroundColor: "#fff",
-    color: "#000",
-  },
-  textDark: {
-    backgroundColor: "#000",
-    color: "#fff",
-  },
-  input: {
-    borderColor: darkMode ? "#000" : "#fff",
-    width: "70%",
-    alignItems: "center",
-    height: 40,
-    margin: 12,
-    borderBottomWidth: 1,
-    padding: 10,
-  },
-});
+const styles = (darkMode?: boolean) =>
+  StyleSheet.create({
+    text: {
+      backgroundColor: darkMode ? "#fff" : "#000",
+      color: darkMode ? "#000" : "#fff",
+    },
+    search: {
+      justifyContent: 'center',
+      width: 240,
+      height: 40,
+      marginTop: 30,
+      marginBottom: 10,
+    },
+    input: {
+      flex: 1,
+      borderBottomWidth: 1,
+      borderColor: darkMode ? "#000" : "#fff",
+      height: 40,
+      fontSize:16,
+    },
+    icon: {
+      position: 'absolute',
+      top: 10,
+
+    },
+  });
 export default Search;
